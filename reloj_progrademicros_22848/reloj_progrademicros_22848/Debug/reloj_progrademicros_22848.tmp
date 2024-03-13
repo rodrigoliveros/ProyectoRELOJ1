@@ -1,0 +1,46 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.INC</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\Debug\reloj_progrademicros_22848.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>reloj_progrademicros_22848.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>reloj_progrademicros_22848.map</FILE>
+  <FILE>reloj_progrademicros_22848.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <MAIN><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>40</LINE></MAIN>
+  <ISR_PCINT0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>218</LINE></ISR_PCINT0>
+  <ISR_TIMER0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>202</LINE></ISR_TIMER0>
+  <TABLA7SEG><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>36</LINE></TABLA7SEG>
+  <SETUP><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>48</LINE></SETUP>
+  <LOOP><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>118</LINE></LOOP>
+  <ESTADOX0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>151</LINE></ESTADOX0>
+  <ESTADOX1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>156</LINE></ESTADOX1>
+  <ESTADO00><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>161</LINE></ESTADO00>
+  <ESTADO10><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>191</LINE></ESTADO10>
+  <ESTADO01><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>188</LINE></ESTADO01>
+  <ESTADO11><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>194</LINE></ESTADO11>
+  <ISR_ESTADOX0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>227</LINE></ISR_ESTADOX0>
+  <ISR_ESTADOX1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>232</LINE></ISR_ESTADOX1>
+  <ISR_ESTADO00><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>237</LINE></ISR_ESTADO00>
+  <ISR_ESTADO10><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>263</LINE></ISR_ESTADO10>
+  <ISR_ESTADO01><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>249</LINE></ISR_ESTADO01>
+  <ISR_ESTADO11><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>266</LINE></ISR_ESTADO11>
+  <SALIR><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>270</LINE></SALIR>
+ </LABELS>
+</ASSEMBLER_INFO>
