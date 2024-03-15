@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm Wed Mar 13 16:02:16 2024
+AVRASM ver. 2.2.8  C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm Fri Mar 15 04:14:10 2024
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm(14): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\M328PDEF.INC'
@@ -1045,86 +1045,96 @@ C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progr
                                  ; ***** END OF FILE ******************************************************
                                  .cseg 
                                  .org 0x00
-000000 940c 0027                 	JMP		MAIN
+000000 940c 0021                 	JMP		MAIN
                                  
                                  .org 0x0006
-000006 940c 0093                 	JMP		ISR_PCINT0
+000006 940c 00a3                 	JMP		ISR_PCINT0
                                  
-                                 .org 0x0020
-000020 940c 0089                 	JMP		ISR_TIMER0
+                                 //.org 0x0020
+                                 //	JMP		ISR_TIMER0
+                                 .org 0x001A
+00001a 940c 0095                 	JMP		ISR_TIMER1
                                  
                                  //Variables
-                                 .def MODO =  R19
                                  .def ESTADO = R20
-                                 .def umin = R22
-                                 .def dmin = R23
-                                 .def uhora = R24
-                                 .def dhora = R25
+                                 
                                  
                                  //******************************************************************************
                                  //Tabla 7 segmentos
                                  //******************************************************************************
-000022 0c7e
-000023 9eb6
-000024 dacc
-000025 0efa
-000026 ceff                      TABLA7SEG: .DB	 0x7E, 0xC, 0xB6, 0x9E, 0xCC, 0xDA, 0xFA, 0xE, 0xFF, 0xCE 
+00001c 0c7e
+00001d 9eb6
+00001e dacc
+00001f 0efa
+000020 ceff                      TABLA7SEG: .DB	 0x7E, 0xC, 0xB6, 0x9E, 0xCC, 0xDA, 0xFA, 0xE, 0xFF, 0xCE 
                                  //******************************************************************************
                                  //Configuracion
                                  //******************************************************************************
                                  MAIN:
-000027 ef0f                      	LDI		R16, LOW(RAMEND)
-000028 bf0d                      	OUT		SPL, R16 
-000029 e018                      	LDI		R17, HIGH(RAMEND)
-00002a bf1d                      	OUT		SPL, R17
+000021 ef0f                      	LDI		R16, LOW(RAMEND)
+000022 bf0d                      	OUT		SPL, R16 
+000023 e018                      	LDI		R17, HIGH(RAMEND)
+000024 bf1d                      	OUT		SPL, R17
                                  //******************************************************************************
                                  //SETUP
                                  //******************************************************************************
                                  SETUP:
-00002b e4e4                      	LDI		ZL, LOW(TABLA7SEG << 1)
-00002c e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1)
+000025 e3e8                      	LDI		ZL, LOW(TABLA7SEG << 1)
+000026 e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1)
                                  	
                                  	//Oscilador
-00002d e800                      	LDI		R16, (1 << CLKPCE)	;Habilitamos el prescaler
-00002e 9300 0061                 	STS		CLKPR, R16 
-000030 e000                      	LDI		R16, 0				;16Hz
-000031 9300 0061                 	STS		CLKPR, R16
+000027 e800                      	LDI		R16, (1 << CLKPCE)	;Habilitamos el prescaler
+000028 9300 0061                 	STS		CLKPR, R16 
+00002a e000                      	LDI		R16, 0				;16Hz
+00002b 9300 0061                 	STS		CLKPR, R16
                                  	
                                  	//Entradas y salidas
-000033 e000                      	LDI		R16, 0x00	
-000034 9300 00c1                 	STS		UCSR0B, R16			;Habilitamos RTx y Tx como pines digitales utiles
-000036 ef0f                      	LDI		R16, 0xFF	
-000037 b90a                      	OUT		DDRD, R16			;PORTD salida
-000038 ef0f                      	LDI		R16, 0xFF	
-000039 b907                      	OUT		DDRC, R16			;PORTC salida
+00002d e000                      	LDI		R16, 0x00	
+00002e 9300 00c1                 	STS		UCSR0B, R16			;Habilitamos RTx y Tx como pines digitales utiles
+000030 ef0f                      	LDI		R16, 0xFF	
+000031 b90a                      	OUT		DDRD, R16			;PORTD salida
+000032 ef0f                      	LDI		R16, 0xFF	
+000033 b907                      	OUT		DDRC, R16			;PORTC salida
                                  
                                  	//PULL-UPS
                                  
-00003a 9a28                      	SBI PORTB, PB0				; Habilitando PULL-UP en PB0
-00003b 9820                      	CBI DDRB, PB0				; Habilitando PB0 como entrada
+000034 9a28                      	SBI PORTB, PB0				; Habilitando PULL-UP en PB0
+000035 9820                      	CBI DDRB, PB0				; Habilitando PB0 como entrada
                                  
-00003c 9a29                      	SBI PORTB, PB1				; Habilitando PULL-UP en PB1
-00003d 9821                      	CBI DDRB, PB1				; Habilitando PB1 como entrada
+000036 9a29                      	SBI PORTB, PB1				; Habilitando PULL-UP en PB1
+000037 9821                      	CBI DDRB, PB1				; Habilitando PB1 como entrada
                                  
-00003e 9a2a                      	SBI PORTB, PB2				; Habilitando PULL-UP en PB2
-00003f 9822                      	CBI DDRB, PB2				; Habilitando PB2 como entrada
+000038 9a2a                      	SBI PORTB, PB2				; Habilitando PULL-UP en PB2
+000039 9822                      	CBI DDRB, PB2				; Habilitando PB2 como entrada
                                  
-000040 9a2b                      	SBI PORTB, PB3				; Habilitando PULL-UP en PB0
-000041 9823                      	CBI DDRB, PB3				; Habilitando PB0 como entrada
+00003a 9a2b                      	SBI PORTB, PB3				; Habilitando PULL-UP en PB0
+00003b 9823                      	CBI DDRB, PB3				; Habilitando PB0 como entrada
                                  
-000042 9a2c                      	SBI PORTB, PB4				; Habilitando PULL-UP en PB4
-000043 9824                      	CBI DDRB, PB4				; Habilitando PB4 como entrada
+00003c 9a2c                      	SBI PORTB, PB4				; Habilitando PULL-UP en PB4
+00003d 9824                      	CBI DDRB, PB4				; Habilitando PB4 como entrada
                                  
                                  
-                                 	//Interrupciones TIMER
-000044 e000                      	LDI		R16, 0
-000045 bd04                      	OUT		TCCR0A, R16			;Contador
-000046 e005                      	LDI		R16, 5
-000047 bd05                      	OUT		TCCR0B, R16			;PRE 1024
-000048 e001                      	LDI		R16, 1				
-000049 9300 006e                 	STS		TIMSK0, R16			;Habilitar TOIE0
-00004b e603                      	LDI		R16, 99				
-00004c bd06                      	OUT		TCNT0, R16			;Initial value
+                                 	//Interrupciones TIMER0
+                                 	//LDI		R16, 0
+                                 	//OUT		TCCR0A, R16			;Contador OPERACION NORMAL
+                                 	//LDI		R16, 5
+                                 	//OUT		TCCR0B, R16			;PRESCALER 1024
+                                 	//LDI		R16, 1				
+                                 	//STS		TIMSK0, R16			;Habilitar TOIE0
+                                 	//LDI		R16, 99				
+                                 	//OUT		TCNT0, R16			;Initial value
+                                 
+                                 		//Interrupciones TIMER1
+00003e e000                      	LDI		R16, 0
+00003f 9300 0080                 	STS		TCCR1A, R16			;Contador OPERACION NORMAL
+000041 e005                      	LDI		R16, 5
+000042 9300 0081                 	STS		TCCR1B, R16			;PRESCALER 1024
+000044 e001                      	LDI		R16, 1				
+000045 9300 006f                 	STS		TIMSK1, R16			;Habilitar TOIE1
+000047 ec02                      	LDI		R16, 0xC2				//32767
+000048 9300 0085                 	STS		TCNT1H, R16			;Initial value
+00004a ef07                      	LDI		R16, 0xF7				//32767
+00004b 9300 0084                 	STS		TCNT1L, R16			;Initial value
                                  
                                  	//Interrupciones de botones
                                  				;PB 4			;PB3		;PB2		  ;PB1			 ;PB0
@@ -1135,185 +1145,251 @@ C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progr
 000051 9300 0068                 	STS PCICR, R16 ; Habilitamos la ISR PCINT[7:0]
                                  
                                  	//Limpiamos variables
-000053 e000                      	LDI		R16, 0
-000054 e010                      	LDI		R17, 0
-000055 e020                      	LDI		R18, 0
-000056 e030                      	LDI		R19, 0
-000057 e040                      	LDI		R20, 0
-000058 e050                      	LDI		R21, 0
-000059 e060                      	LDI		R22, 0
+000053 e000                      	LDI		R16, 0 //multiusos
+000054 e010                      	LDI		R17, 0 //
+000055 e020                      	LDI		R18, 0 //dirección de Z
+000056 e030                      	LDI		R19, 0 //
+000057 e040                      	LDI		R20, 0 //ESTADO
+000058 e050                      	LDI		R21, 0 //segundos en timer1
+000059 e060                      	LDI		R22, 0 //controlador de posición para unidades de minutos
+00005a e070                      	LDI		R23, 0// controlador de posición para decenas de minutos
+00005b e080                      	LDI		R24, 0 // controlador de que transistor esta encendido
+00005c e090                      	LDI		R25, 0 //controlador de posición para unidades de horas
+00005d e0a0                      	LDI		R26, 0 
                                  	
-00005a 9124                      	LPM		R18, Z
-00005b b92b                      	OUT		PORTD, R18
+00005e 9124                      	LPM		R18, Z
+00005f b92b                      	OUT		PORTD, R18
                                  
-00005c 9478                      	SEI
+000060 9478                      	SEI
                                  //******************************************************************************
                                  //LOOP
                                  //******************************************************************************
                                  LOOP:
-                                 
-                                 	//INC		ZL					; Significa que llegamos a MIN.
-                                 
-                                 	//LPM		R18, Z					;LUEGO UN OUT
-                                 	//OUT		PORTD, R18
-                                 	//INC		R23
-                                 	//ADD		ZL, R23
-                                 	//LPM		R19, Z					; LUEGO UN OUT
-                                 	//LDI		ZL, LOW(TABLA7SEG << 1)	 
-                                 	//LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-                                 
-                                 	//CPI		R23, 6					; LLEGO A 60?
-                                 	//BRNE	LOOP
-                                 	//LDI		R23, 0					; SE CUMPLIO MINUTO
-                                 	//LDI		ZL, LOW(TABLA7SEG << 1)	 
-                                 	//LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-                                 
-                                 
-                                 	//ADD		ZL, R23
-                                 	//LPM		R19, Z					; LUEGO UN OUT
-                                 	//LDI		ZL, LOW(TABLA7SEG << 1)	 
-                                 	//LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-                                 
-                                 	//LPM		R18, Z					; Cargar R18 la posición de z
-                                 	//OUT		PORTD, R18				; SACAR A PORTD
-                                 	//LPM		R19, Z
+                                 //Z
+000061 940e 00c3                 	CALL U_MIN
+000063 940e 00d4                 	CALL D_MIN
+000065 940e 00e5                 	CALL U_HORA
+000067 940e 00f6                 	CALL D_HORA
+                                 	
+                                 	//Uminutos
+000069 3051                      	CPI		R21, 1
+00006a f7b1                      	BRNE	LOOP	; SE CUMPLIO 1 MIN
+00006b 9563                      	INC		R22		; Posición en la tabla Z
+00006c e050                      	LDI		R21, 0 
+                                 	//Dminutos
+00006d 306a                      	CPI		R22, 10 ; display 0 llego a 10?
+00006e f791                      	BRNE	LOOP	; 
+00006f 9573                      	INC		R23
+000070 e060                      	LDI		R22, 0	; si, se vuelve reinicia.
+                                 	//Uhora
+000071 3076                      	CPI		R23, 6	;ver si la decena de minuto llega a 6
+000072 f771                      	BRNE	LOOP	
+000073 9593                      	INC		R25		; incrementamos, llego a hora
+000074 e070                      	LDI		R23, 0	;reseteamos decena de minuto
+                                 	//Dhora
+000075 309a                      	CPI		R25, 10	; unidad de hora llego a 10?
+000076 f751                      	BRNE	LOOP
+000077 95a3                      	INC		R26		; incrementamos, llego a decenas de hora
+000078 e090                      	LDI		R25, 0  ;reseteamos unidad de hora
+000079 30aa                      	CPI		R26, 10
+00007a f731                      	BRNE	LOOP
+00007b e0a0                      	LDI		R26, 0
+00007c 940c 0061                 	JMP LOOP
+                                 	//dminutos
                                  
                                  	//RJMP	LOOP
-00005d ff40                      	SBRS ESTADO, 0 ; Estado bit 0 = 1?
-00005e 940c 0062                 	JMP	ESTADOX0 ; bit 0 = 0
-000060 940c 0067                 	JMP	ESTADOX1 ; bit 0 = 1
+00007e ff40                      	SBRS ESTADO, 0 ; Estado bit 0 = 1?
+00007f 940c 0083                 	JMP	ESTADOX0 ; bit 0 = 0
+000081 940c 0088                 	JMP	ESTADOX1 ; bit 0 = 1
                                  
                                  ESTADOX0:
-000062 ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
-000063 940c 006c                 	JMP ESTADO00 ; bit 1 = 0
-000065 940c 0085                 	JMP ESTADO10 ; bit 1 = 1
+000083 ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
+000084 940c 008d                 	JMP ESTADO00 ; bit 1 = 0
+000086 940c 0091                 	JMP ESTADO10 ; bit 1 = 1
                                  
                                  ESTADOX1:
-000067 ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
-000068 940c 0083                 	JMP ESTADO01 ; bit 1 = 0
-00006a 940c 0087                 	JMP ESTADO11 ; bit 1 = 1
+000088 ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
+000089 940c 008f                 	JMP ESTADO01 ; bit 1 = 0
+00008b 940c 0093                 	JMP ESTADO11 ; bit 1 = 1
                                  
-                                 ESTADO00:
-                                 	//SEGUNDOS
-00006c 3654                      	CPI		R21, 100				; R21 = 100 (1 segundo)
-00006d f779                      	BRNE	LOOP					; Loop si no son iguales
-00006e e050                      	LDI		R21,0					; Iguales, reset
-00006f 9563                      	INC		R22
-000070 336c                      	CPI		R22, 60					; LOOP SEGUNDOS.
-000071 f759                      	BRNE	LOOP
-                                 	//UNIDADES DE MIN
-000072 e060                      	LDI		R22, 0					;llegamos a minuto
-                                 
-000073 9a40                      	SBI		PORTC, PC0
-000074 9841                      	CBI		PORTC, PC1
-000075 9842                      	CBI		PORTC, PC2
-000076 9843                      	CBI		PORTC, PC3
-000077 95e3                      	INC		ZL						; Mover en tabla
-000078 9124                      	LPM		R18, Z					; Cargar R18 con la posición de Z
-000079 b92b                      	OUT		PORTD, R18				; SACAR A PORTD 
-                                 
-00007a 302f                      	CPI		R18, 0x0F				; Esta en el final?
-00007b f709                      	BRNE	LOOP					; Regresar a loop si no esta en el final
-00007c e4e4                      	LDI		ZL, LOW(TABLA7SEG << 1)	 
-00007d e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-00007e 9124                      	LPM		R18, Z					; Cargar R18 la posición de z
-00007f b92b                      	OUT		PORTD, R18				; SACAR A PORTD
-000080 cfdc                      	RJMP	LOOP	
-000081 940c 005d                 JMP LOOP
+                                 ESTADO00:	
+                                 	
+00008d 940c 0061                 JMP LOOP
                                  ESTADO01:
                                  
-000083 940c 005d                 JMP LOOP
+00008f 940c 0061                 JMP LOOP
                                  ESTADO10:
                                  
-000085 940c 005d                 JMP LOOP
+000091 940c 0061                 JMP LOOP
                                  ESTADO11:
                                  
-000087 940c 005d                 JMP LOOP		
+000093 940c 0061                 JMP LOOP		
                                  //******************************************************************************
                                  //SUBRUTINAS
                                  //******************************************************************************
-                                 
                                  //Interrupción 1
-                                 ISR_TIMER0:
-000089 930f                      	PUSH	R16					;Guardamos para no perder counter ni resultados
-00008a b70f                      	IN		R16, SREG			
-00008b 930f                      	PUSH	R16					
+                                 //ISR_TIMER0:
+                                 	//PUSH	R16					;Guardamos para no perder counter ni resultados
+                                 	//IN		R16, SREG			
+                                 	//PUSH	R16					
                                  		
-00008c 9553                      	INC		R21					
+                                 	//INC		R21					
                                  
-00008d e613                      	LDI		R17, 99				
-00008e bd16                      	OUT		TCNT0, R17			;Initial Value
+                                 	//LDI		R17, 99				
+                                 	//OUT		TCNT0, R17			;Initial Value
                                  
-00008f 910f                      	POP		R16					;Sacamos de la pila
-000090 bf0f                      	OUT		SREG, R16			
-000091 910f                      	POP		R16					
-000092 9518                      	RETI
+                                 	//POP		R16					;Sacamos de la pila
+                                 	//OUT		SREG, R16			
+                                 	//POP		R16					
+                                 	//RETI
+                                 
+                                 ISR_TIMER1:
+000095 930f                      	PUSH	R16					;Guardamos para no perder counter ni resultados
+000096 b70f                      	IN		R16, SREG			
+000097 930f                      	PUSH	R16					
+                                 		
+000098 9553                      	INC		R21					
+                                 
+000099 ec02                      	LDI		R16, 0xC2				//32767
+00009a 9300 0085                 	STS		TCNT1H, R16			;Initial value
+00009c ef07                      	LDI		R16, 0xF7				//32767
+00009d 9300 0084                 	STS		TCNT1L, R16			;Initial value
+                                 
+00009f 910f                      	POP		R16					;Sacamos de la pila
+0000a0 bf0f                      	OUT		SREG, R16			
+0000a1 910f                      	POP		R16					
+0000a2 9518                      	RETI
                                  
                                  //Interrupción 2
                                  ISR_PCINT0:
-000093 930f                      	PUSH	R16					;Guardamos para no perder counter ni resultados
-000094 b70f                      	IN		R16, SREG			
-000095 930f                      	PUSH	R16	
+0000a3 930f                      	PUSH	R16					;Guardamos para no perder counter ni resultados
+0000a4 b70f                      	IN		R16, SREG			
+0000a5 930f                      	PUSH	R16	
                                  
-000096 ff40                      	SBRS ESTADO, 0 ; Estado bit 0 = 1?
-000097 940c 009b                 	JMP	ISR_ESTADOX0 ; bit 0 = 0
-000099 940c 00a0                 	JMP	ISR_ESTADOX1 ; bit 0 = 1
+0000a6 ff40                      	SBRS ESTADO, 0 ; Estado bit 0 = 1?
+0000a7 940c 00ab                 	JMP	ISR_ESTADOX0 ; bit 0 = 0
+0000a9 940c 00b0                 	JMP	ISR_ESTADOX1 ; bit 0 = 1
                                  
                                  ISR_ESTADOX0:
-00009b ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
-00009c 940c 00a5                 	JMP ISR_ESTADO00 ; bit 1 = 0
-00009e 940c 00b9                 	JMP ISR_ESTADO10 ; bit 1 = 1
+0000ab ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
+0000ac 940c 00b5                 	JMP ISR_ESTADO00 ; bit 1 = 0
+0000ae 940c 00bb                 	JMP ISR_ESTADO10 ; bit 1 = 1
                                  
                                  ISR_ESTADOX1:
-0000a0 ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
-0000a1 940c 00ae                 	JMP ISR_ESTADO01 ; bit 1 = 0
-0000a3 940c 00bb                 	JMP ISR_ESTADO11 ; bit 1 = 1
+0000b0 ff41                      	SBRS ESTADO, 1 ; Estado bit 1 = 1?
+0000b1 940c 00b7                 	JMP ISR_ESTADO01 ; bit 1 = 0
+0000b3 940c 00bd                 	JMP ISR_ESTADO11 ; bit 1 = 1
                                  
                                  ISR_ESTADO00:
-0000a5 b103                      	IN R16, PINB
-0000a6 ff00                      	SBRS R16, PB0	; PB0 = 1?
-0000a7 956a                      	DEC umin		; PB0 = 0
-                                 					; PB0 = 1
-0000a8 ff01                      	SBRS R16, PB1	; PB1 = 1?
-0000a9 9563                      	INC umin	; PB1 = 0
-                                 					; PB1 = 1
-0000aa ff04                      	SBRS R16, PB4	; PB2 = 1?
-0000ab 9543                      	INC ESTADO		; PB5 = 0
-                                 					; PB5 = 1
-0000ac 940c 00bd                 	JMP SALIR
-                                 ISR_ESTADO01:
-0000ae b103                      	IN R16, PINB
-0000af ff00                      	SBRS R16, PB0	; PB0 = 1?
-0000b0 957a                      	DEC dmin		; PB0 = 0
-                                 					; PB0 = 1
-0000b1 ff01                      	SBRS R16, PB1	; PB1 = 1?
-0000b2 9573                      	INC dmin	; PB1 = 0
-                                 					; PB1 = 1
-0000b3 ff04                      	SBRS R16, PB4	; PB2 = 1?
-0000b4 9543                      	INC ESTADO		; PB5 = 0
-                                 					; PB5 = 1
-0000b5 940c 00bd                 	JMP SALIR
                                  
-0000b7 940c 00bd                 JMP SALIR
+0000b5 940c 00bf                 	JMP SALIR
+                                 ISR_ESTADO01:
+                                 
+0000b7 940c 00bf                 	JMP SALIR
+                                 
+0000b9 940c 00bf                 JMP SALIR
                                  ISR_ESTADO10:
                                  
-0000b9 940c 00bd                 JMP SALIR
+0000bb 940c 00bf                 JMP SALIR
                                  ISR_ESTADO11:
                                  
-0000bb 940c 00bd                 JMP SALIR
+0000bd 940c 00bf                 JMP SALIR
                                  
                                  SALIR:
-0000bd 910f                      	POP		R16					;Salimos de la rutina
-0000be bf0f                      	OUT		SREG, R16			
-0000bf 910f                      	POP		R16					
-0000c0 9518                      	RETI
+0000bf 910f                      	POP		R16					;Salimos de la rutina
+0000c0 bf0f                      	OUT		SREG, R16			
+0000c1 910f                      	POP		R16					
+0000c2 9518                      	RETI
+                                 U_MIN:
+0000c3 9840                      	CBI		PORTC, PC0
+0000c4 9841                      	CBI		PORTC, PC1
+0000c5 9842                      	CBI		PORTC, PC2
+0000c6 9843                      	CBI		PORTC, PC3
+                                 	
+0000c7 2f26                      	MOV		R18, R22
+0000c8 e3e8                      	LDI		ZL, LOW(TABLA7SEG << 1)	 
+0000c9 e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+0000ca 0fe2                      	ADD		ZL, R18
+0000cb 9124                      	LPM		R18, Z					; Cargar R18 la posición de z
+                                 
+0000cc 9840                      	CBI		PORTC, PC0
+0000cd 9841                      	CBI		PORTC, PC1
+0000ce 9842                      	CBI		PORTC, PC2
+0000cf 9843                      	CBI		PORTC, PC3
+                                 
+0000d0 e081                      	LDI		R24, 0b0000_0001
+0000d1 b988                      	OUT		PORTC, R24
+0000d2 b92b                      	OUT		PORTD, R18				; SACAR A PORTD
                                  
                                  
-                                 	// SBIS, BREG, utilizar segundos y decenas de segundos como solo un contador que muestra display en lugar de regristros. 
-                                 	// tambien realizar una estructura que sea como cuenta segundos sino minuntos sino horas sino dias sino calendarios
-                                 	//hacer las calls de alarma 
+0000d3 9508                      	RET
+                                 D_MIN:
+0000d4 9840                      	CBI		PORTC, PC0
+0000d5 9841                      	CBI		PORTC, PC1
+0000d6 9842                      	CBI		PORTC, PC2
+0000d7 9843                      	CBI		PORTC, PC3
+                                 	
+0000d8 2f27                      	MOV		R18, R23
+0000d9 e3e8                      	LDI		ZL, LOW(TABLA7SEG << 1)	 
+0000da e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+0000db 0fe2                      	ADD		ZL, R18
+0000dc 9124                      	LPM		R18, Z					; Cargar R18 la posición de z
                                  
-                                 	//varias sub rutinas igual cuenta, hacemos cero, aumentamos al siguiente tiempo, sigue corriendo el codigo
+0000dd 9840                      	CBI		PORTC, PC0
+0000de 9841                      	CBI		PORTC, PC1
+0000df 9842                      	CBI		PORTC, PC2
+0000e0 9843                      	CBI		PORTC, PC3
+                                 
+0000e1 e082                      	LDI		R24, 0b0000_0010
+0000e2 b988                      	OUT		PORTC, R24
+0000e3 b92b                      	OUT		PORTD, R18				; SACAR A PORTD
+                                 
+                                 
+0000e4 9508                      	RET
+                                 U_HORA:
+0000e5 9840                      	CBI		PORTC, PC0
+0000e6 9841                      	CBI		PORTC, PC1
+0000e7 9842                      	CBI		PORTC, PC2
+0000e8 9843                      	CBI		PORTC, PC3
+                                 	
+0000e9 2f29                      	MOV		R18, R25
+0000ea e3e8                      	LDI		ZL, LOW(TABLA7SEG << 1)	 
+0000eb e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+0000ec 0fe2                      	ADD		ZL, R18
+0000ed 9124                      	LPM		R18, Z					; Cargar R18 la posición de z
+                                 
+0000ee 9840                      	CBI		PORTC, PC0
+0000ef 9841                      	CBI		PORTC, PC1
+0000f0 9842                      	CBI		PORTC, PC2
+0000f1 9843                      	CBI		PORTC, PC3
+                                 
+0000f2 e084                      	LDI		R24, 0b0000_0100
+0000f3 b988                      	OUT		PORTC, R24
+0000f4 b92b                      	OUT		PORTD, R18				; SACAR A PORTD
+                                 
+                                 
+0000f5 9508                      	RET
+                                 D_HORA:
+0000f6 9840                      	CBI		PORTC, PC0
+0000f7 9841                      	CBI		PORTC, PC1
+0000f8 9842                      	CBI		PORTC, PC2
+0000f9 9843                      	CBI		PORTC, PC3
+                                 	
+0000fa 2f2a                      	MOV		R18, R26
+0000fb e3e8                      	LDI		ZL, LOW(TABLA7SEG << 1)	 
+0000fc e0f0                      	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+0000fd 0fe2                      	ADD		ZL, R18
+0000fe 9124                      	LPM		R18, Z					; Cargar R18 la posición de z
+                                 
+0000ff 9840                      	CBI		PORTC, PC0
+000100 9841                      	CBI		PORTC, PC1
+000101 9842                      	CBI		PORTC, PC2
+000102 9843                      	CBI		PORTC, PC3
+                                 
+000103 e088                      	LDI		R24, 0b0000_1000
+000104 b988                      	OUT		PORTC, R24
+000105 b92b                      	OUT		PORTD, R18				; SACAR A PORTD
+                                 
 
 
 RESOURCE USE INFORMATION
@@ -1331,39 +1407,39 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATmega328P" register use summary:
-x  :   0 y  :   0 z  :   3 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
+x  :   0 y  :   0 z  :   5 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  45 r17:   5 r18:   8 r19:   1 r20:   9 
-r21:   4 r22:   6 r23:   2 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
-r29:   0 r30:   3 r31:   2 
-Registers used: 11 out of 35 (31.4%)
+r13:   0 r14:   0 r15:   0 r16:  43 r17:   3 r18:  19 r19:   1 r20:   7 
+r21:   4 r22:   5 r23:   5 r24:   9 r25:   5 r26:   5 r27:   0 r28:   0 
+r29:   0 r30:   9 r31:   5 
+Registers used: 14 out of 35 (40.0%)
 
 "ATmega328P" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
+.lds  :   0 .sts  :   0 adc   :   0 add   :   4 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
-brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   8 cbr   :   0 
+brne  :   5 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   4 cbi   :  37 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   3 cpse  :   0 dec   :   2 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   4 inc   :   7 jmp   :  24 
-ld    :   0 ldd   :   0 ldi   :  27 lds   :   0 lpm   :   6 lsl   :   0 
-lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  13 pop   :   4 
-push  :   4 rcall :   0 ret   :   0 reti  :   2 rjmp  :   1 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   6 sbic  :   0 sbis  :   0 
-sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :  12 sec   :   0 seh   :   0 
+cpi   :   5 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   2 inc   :   5 jmp   :  25 
+ld    :   0 ldd   :   0 ldi   :  46 lds   :   0 lpm   :  10 lsl   :   0 
+lsr   :   0 mov   :   4 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
+neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  15 pop   :   4 
+push  :   4 rcall :   0 ret   :   4 reti  :   2 rjmp  :   0 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   5 sbic  :   0 sbis  :   0 
+sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   6 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   6 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :  12 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 18 out of 113 (15.9%)
+Instructions used: 20 out of 113 (17.7%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000182    320     10    330   32768   1.0%
+[.cseg] 0x000000 0x00020e    472     10    482   32768   1.5%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

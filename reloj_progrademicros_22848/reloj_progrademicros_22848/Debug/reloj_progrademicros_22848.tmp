@@ -23,24 +23,28 @@
   <FILE>reloj_progrademicros_22848.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <MAIN><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>40</LINE></MAIN>
-  <ISR_PCINT0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>218</LINE></ISR_PCINT0>
-  <ISR_TIMER0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>202</LINE></ISR_TIMER0>
-  <TABLA7SEG><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>36</LINE></TABLA7SEG>
-  <SETUP><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>48</LINE></SETUP>
-  <LOOP><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>118</LINE></LOOP>
-  <ESTADOX0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>151</LINE></ESTADOX0>
-  <ESTADOX1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>156</LINE></ESTADOX1>
-  <ESTADO00><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>161</LINE></ESTADO00>
-  <ESTADO10><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>191</LINE></ESTADO10>
-  <ESTADO01><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>188</LINE></ESTADO01>
-  <ESTADO11><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>194</LINE></ESTADO11>
-  <ISR_ESTADOX0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>227</LINE></ISR_ESTADOX0>
-  <ISR_ESTADOX1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>232</LINE></ISR_ESTADOX1>
-  <ISR_ESTADO00><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>237</LINE></ISR_ESTADO00>
-  <ISR_ESTADO10><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>263</LINE></ISR_ESTADO10>
-  <ISR_ESTADO01><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>249</LINE></ISR_ESTADO01>
-  <ISR_ESTADO11><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>266</LINE></ISR_ESTADO11>
-  <SALIR><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>270</LINE></SALIR>
+  <MAIN><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>38</LINE></MAIN>
+  <ISR_PCINT0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>229</LINE></ISR_PCINT0>
+  <ISR_TIMER1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>211</LINE></ISR_TIMER1>
+  <TABLA7SEG><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>34</LINE></TABLA7SEG>
+  <SETUP><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>46</LINE></SETUP>
+  <LOOP><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>132</LINE></LOOP>
+  <U_MIN><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>268</LINE></U_MIN>
+  <D_MIN><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>291</LINE></D_MIN>
+  <U_HORA><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>314</LINE></U_HORA>
+  <D_HORA><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>337</LINE></D_HORA>
+  <ESTADOX0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>170</LINE></ESTADOX0>
+  <ESTADOX1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>175</LINE></ESTADOX1>
+  <ESTADO00><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>180</LINE></ESTADO00>
+  <ESTADO10><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>186</LINE></ESTADO10>
+  <ESTADO01><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>183</LINE></ESTADO01>
+  <ESTADO11><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>189</LINE></ESTADO11>
+  <ISR_ESTADOX0><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>238</LINE></ISR_ESTADOX0>
+  <ISR_ESTADOX1><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>243</LINE></ISR_ESTADOX1>
+  <ISR_ESTADO00><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>248</LINE></ISR_ESTADO00>
+  <ISR_ESTADO10><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>256</LINE></ISR_ESTADO10>
+  <ISR_ESTADO01><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>251</LINE></ISR_ESTADO01>
+  <ISR_ESTADO11><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>259</LINE></ISR_ESTADO11>
+  <SALIR><FILE>C:\Users\rodri\Downloads\PROYECT01_MICROS\reloj_progrademicros_22848\reloj_progrademicros_22848\main.asm</FILE><LINE>263</LINE></SALIR>
  </LABELS>
 </ASSEMBLER_INFO>

@@ -19,16 +19,14 @@
 .org 0x0006
 	JMP		ISR_PCINT0
 
-.org 0x0020
-	JMP		ISR_TIMER0
+//.org 0x0020
+//	JMP		ISR_TIMER0
+.org 0x001A
+	JMP		ISR_TIMER1
 
 //Variables
-.def MODO =  R19
 .def ESTADO = R20
-.def umin = R22
-.def dmin = R23
-.def uhora = R24
-.def dhora = R25
+
 
 //******************************************************************************
 //Tabla 7 segmentos
@@ -81,15 +79,27 @@ SETUP:
 	CBI DDRB, PB4				; Habilitando PB4 como entrada
 
 
-	//Interrupciones TIMER
+	//Interrupciones TIMER0
+	//LDI		R16, 0
+	//OUT		TCCR0A, R16			;Contador OPERACION NORMAL
+	//LDI		R16, 5
+	//OUT		TCCR0B, R16			;PRESCALER 1024
+	//LDI		R16, 1				
+	//STS		TIMSK0, R16			;Habilitar TOIE0
+	//LDI		R16, 99				
+	//OUT		TCNT0, R16			;Initial value
+
+		//Interrupciones TIMER1
 	LDI		R16, 0
-	OUT		TCCR0A, R16			;Contador
+	STS		TCCR1A, R16			;Contador OPERACION NORMAL
 	LDI		R16, 5
-	OUT		TCCR0B, R16			;PRE 1024
+	STS		TCCR1B, R16			;PRESCALER 1024
 	LDI		R16, 1				
-	STS		TIMSK0, R16			;Habilitar TOIE0
-	LDI		R16, 99				
-	OUT		TCNT0, R16			;Initial value
+	STS		TIMSK1, R16			;Habilitar TOIE1
+	LDI		R16, 0xC2				//32767
+	STS		TCNT1H, R16			;Initial value
+	LDI		R16, 0xF7				//32767
+	STS		TCNT1L, R16			;Initial value
 
 	//Interrupciones de botones
 				;PB 4			;PB3		;PB2		  ;PB1			 ;PB0
@@ -100,13 +110,17 @@ SETUP:
 	STS PCICR, R16 ; Habilitamos la ISR PCINT[7:0]
 
 	//Limpiamos variables
-	LDI		R16, 0
-	LDI		R17, 0
-	LDI		R18, 0
-	LDI		R19, 0
-	LDI		R20, 0
-	LDI		R21, 0
-	LDI		R22, 0
+	LDI		R16, 0 //multiusos
+	LDI		R17, 0 //
+	LDI		R18, 0 //dirección de Z
+	LDI		R19, 0 //
+	LDI		R20, 0 //ESTADO
+	LDI		R21, 0 //segundos en timer1
+	LDI		R22, 0 //controlador de posición para unidades de minutos
+	LDI		R23, 0// controlador de posición para decenas de minutos
+	LDI		R24, 0 // controlador de que transistor esta encendido
+	LDI		R25, 0 //controlador de posición para unidades de horas
+	LDI		R26, 0 
 	
 	LPM		R18, Z
 	OUT		PORTD, R18
@@ -116,32 +130,37 @@ SETUP:
 //LOOP
 //******************************************************************************
 LOOP:
-
-	//INC		ZL					; Significa que llegamos a MIN.
-
-	//LPM		R18, Z					;LUEGO UN OUT
-	//OUT		PORTD, R18
-	//INC		R23
-	//ADD		ZL, R23
-	//LPM		R19, Z					; LUEGO UN OUT
-	//LDI		ZL, LOW(TABLA7SEG << 1)	 
-	//LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-
-	//CPI		R23, 6					; LLEGO A 60?
-	//BRNE	LOOP
-	//LDI		R23, 0					; SE CUMPLIO MINUTO
-	//LDI		ZL, LOW(TABLA7SEG << 1)	 
-	//LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-
-
-	//ADD		ZL, R23
-	//LPM		R19, Z					; LUEGO UN OUT
-	//LDI		ZL, LOW(TABLA7SEG << 1)	 
-	//LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-
-	//LPM		R18, Z					; Cargar R18 la posición de z
-	//OUT		PORTD, R18				; SACAR A PORTD
-	//LPM		R19, Z
+//Z
+	CALL U_MIN
+	CALL D_MIN
+	CALL U_HORA
+	CALL D_HORA
+	
+	//Uminutos
+	CPI		R21, 1
+	BRNE	LOOP	; SE CUMPLIO 1 MIN
+	INC		R22		; Posición en la tabla Z
+	LDI		R21, 0 
+	//Dminutos
+	CPI		R22, 10 ; display 0 llego a 10?
+	BRNE	LOOP	; 
+	INC		R23
+	LDI		R22, 0	; si, se vuelve reinicia.
+	//Uhora
+	CPI		R23, 6	;ver si la decena de minuto llega a 6
+	BRNE	LOOP	
+	INC		R25		; incrementamos, llego a hora
+	LDI		R23, 0	;reseteamos decena de minuto
+	//Dhora
+	CPI		R25, 10	; unidad de hora llego a 10?
+	BRNE	LOOP
+	INC		R26		; incrementamos, llego a decenas de hora
+	LDI		R25, 0  ;reseteamos unidad de hora
+	CPI		R26, 3
+	BRNE	LOOP
+	LDI		R26, 0
+	JMP LOOP
+	//dminutos
 
 	//RJMP	LOOP
 	SBRS ESTADO, 0 ; Estado bit 0 = 1?
@@ -158,32 +177,8 @@ ESTADOX1:
 	JMP ESTADO01 ; bit 1 = 0
 	JMP ESTADO11 ; bit 1 = 1
 
-ESTADO00:
-	//SEGUNDOS
-	CPI		R21, 100				; R21 = 100 (1 segundo)
-	BRNE	LOOP					; Loop si no son iguales
-	LDI		R21,0					; Iguales, reset
-	INC		R22
-	CPI		R22, 60					; LOOP SEGUNDOS.
-	BRNE	LOOP
-	//UNIDADES DE MIN
-	LDI		R22, 0					;llegamos a minuto
-
-	SBI		PORTC, PC0
-	CBI		PORTC, PC1
-	CBI		PORTC, PC2
-	CBI		PORTC, PC3
-	INC		ZL						; Mover en tabla
-	LPM		R18, Z					; Cargar R18 con la posición de Z
-	OUT		PORTD, R18				; SACAR A PORTD 
-
-	CPI		R18, 0x0F				; Esta en el final?
-	BRNE	LOOP					; Regresar a loop si no esta en el final
-	LDI		ZL, LOW(TABLA7SEG << 1)	 
-	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
-	LPM		R18, Z					; Cargar R18 la posición de z
-	OUT		PORTD, R18				; SACAR A PORTD
-	RJMP	LOOP	
+ESTADO00:	
+	
 JMP LOOP
 ESTADO01:
 
@@ -197,17 +192,33 @@ JMP LOOP
 //******************************************************************************
 //SUBRUTINAS
 //******************************************************************************
-
 //Interrupción 1
-ISR_TIMER0:
+//ISR_TIMER0:
+	//PUSH	R16					;Guardamos para no perder counter ni resultados
+	//IN		R16, SREG			
+	//PUSH	R16					
+		
+	//INC		R21					
+
+	//LDI		R17, 99				
+	//OUT		TCNT0, R17			;Initial Value
+
+	//POP		R16					;Sacamos de la pila
+	//OUT		SREG, R16			
+	//POP		R16					
+	//RETI
+
+ISR_TIMER1:
 	PUSH	R16					;Guardamos para no perder counter ni resultados
 	IN		R16, SREG			
 	PUSH	R16					
 		
 	INC		R21					
 
-	LDI		R17, 99				
-	OUT		TCNT0, R17			;Initial Value
+	LDI		R16, 0xC2				//32767
+	STS		TCNT1H, R16			;Initial value
+	LDI		R16, 0xF7				//32767
+	STS		TCNT1L, R16			;Initial value
 
 	POP		R16					;Sacamos de la pila
 	OUT		SREG, R16			
@@ -235,28 +246,10 @@ ISR_ESTADOX1:
 	JMP ISR_ESTADO11 ; bit 1 = 1
 
 ISR_ESTADO00:
-	IN R16, PINB
-	SBRS R16, PB0	; PB0 = 1?
-	DEC umin		; PB0 = 0
-					; PB0 = 1
-	SBRS R16, PB1	; PB1 = 1?
-	INC umin	; PB1 = 0
-					; PB1 = 1
-	SBRS R16, PB4	; PB2 = 1?
-	INC ESTADO		; PB5 = 0
-					; PB5 = 1
+
 	JMP SALIR
 ISR_ESTADO01:
-	IN R16, PINB
-	SBRS R16, PB0	; PB0 = 1?
-	DEC dmin		; PB0 = 0
-					; PB0 = 1
-	SBRS R16, PB1	; PB1 = 1?
-	INC dmin	; PB1 = 0
-					; PB1 = 1
-	SBRS R16, PB4	; PB2 = 1?
-	INC ESTADO		; PB5 = 0
-					; PB5 = 1
+
 	JMP SALIR
 
 JMP SALIR
@@ -272,11 +265,94 @@ SALIR:
 	OUT		SREG, R16			
 	POP		R16					
 	RETI
+U_MIN:
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+	
+	MOV		R18, R22
+	LDI		ZL, LOW(TABLA7SEG << 1)	 
+	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+	ADD		ZL, R18
+	LPM		R18, Z					; Cargar R18 la posición de z
+
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+
+	LDI		R24, 0b0000_0001
+	OUT		PORTC, R24
+	OUT		PORTD, R18				; SACAR A PORTD
 
 
-	// SBIS, BREG, utilizar segundos y decenas de segundos como solo un contador que muestra display en lugar de regristros. 
-	// tambien realizar una estructura que sea como cuenta segundos sino minuntos sino horas sino dias sino calendarios
-	//hacer las calls de alarma 
+	RET
+D_MIN:
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+	
+	MOV		R18, R23
+	LDI		ZL, LOW(TABLA7SEG << 1)	 
+	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+	ADD		ZL, R18
+	LPM		R18, Z					; Cargar R18 la posición de z
 
-	//varias sub rutinas igual cuenta, hacemos cero, aumentamos al siguiente tiempo, sigue corriendo el codigo
-	// hasta abajo muestra y regresa al loop.
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+
+	LDI		R24, 0b0000_0010
+	OUT		PORTC, R24
+	OUT		PORTD, R18				; SACAR A PORTD
+
+
+	RET
+U_HORA:
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+	
+	MOV		R18, R25
+	LDI		ZL, LOW(TABLA7SEG << 1)	 
+	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+	ADD		ZL, R18
+	LPM		R18, Z					; Cargar R18 la posición de z
+
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+
+	LDI		R24, 0b0000_0100
+	OUT		PORTC, R24
+	OUT		PORTD, R18				; SACAR A PORTD
+
+
+	RET
+D_HORA:
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+	
+	MOV		R18, R26
+	LDI		ZL, LOW(TABLA7SEG << 1)	 
+	LDI		ZH, HIGH(TABLA7SEG << 1); Regresar al inicio de la tabla
+	ADD		ZL, R18
+	LPM		R18, Z					; Cargar R18 la posición de z
+
+	CBI		PORTC, PC0
+	CBI		PORTC, PC1
+	CBI		PORTC, PC2
+	CBI		PORTC, PC3
+
+	LDI		R24, 0b0000_1000
+	OUT		PORTC, R24
+	OUT		PORTD, R18				; SACAR A PORTD
+
+	RET
